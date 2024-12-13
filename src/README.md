@@ -5,7 +5,7 @@ tags:
   - provider/aws
 ---
 
-# Component: `opsgenie`
+# Component: `opsgenie-team`
 
 This component is responsible for provisioning Opsgenie teams and related services, rules, schedules.
 
