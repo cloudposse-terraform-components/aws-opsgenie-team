@@ -65,7 +65,7 @@ The result should be something similar to below:
         "plan": {
             "maxUserCount": 1500,
             "name": "Enterprise",
-     ...
+    ...
 }
 ```
 
