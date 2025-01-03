@@ -41,7 +41,7 @@ description: |-
           "plan": {
               "maxUserCount": 1500,
               "name": "Enterprise",
-       ...
+      ...
   }
   ```
 
