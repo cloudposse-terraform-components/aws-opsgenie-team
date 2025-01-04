@@ -5,5 +5,3 @@ repository:
   description: This component is responsible for provisioning Opsgenie teams and related services, rules, schedules
   homepage: https://cloudposse.com/accelerate
   topics: terraform, terraform-component
-
-
