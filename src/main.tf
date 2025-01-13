@@ -4,8 +4,8 @@ locals {
   create_all_enabled = local.enabled && var.create_only_integrations_enabled == false
 
   # Team locals to maintain an implicit dependency to downstream modules
-  team_id   = var.create_only_integrations_enabled ? join("", data.opsgenie_team.existing.*.id) : module.team.team_id
-  team_name = var.create_only_integrations_enabled ? join("", data.opsgenie_team.existing.*.name) : coalesce(module.team.team_name, var.name)
+  team_id   = var.create_only_integrations_enabled ? join("", data.opsgenie_team.existing[*].id) : module.team.team_id
+  team_name = var.create_only_integrations_enabled ? join("", data.opsgenie_team.existing[*].name) : coalesce(module.team.team_name, var.name)
 
   members = {
     for member in var.members :
