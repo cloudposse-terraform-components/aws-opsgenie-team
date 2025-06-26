@@ -1,7 +1,7 @@
 // This is a custom provider-datadog.tf because it is always enabled, this is because we always need the datadog provider to be configured, even if the module is disabled.
 
 module "datadog_configuration" {
-  source  = "github.com/cloudposse-terraform-components/aws-datadog-credentials//src/modules/datadog_keys?ref=v1.535.4"
+  source  = "github.com/cloudposse-terraform-components/aws-datadog-credentials//src/modules/datadog_keys?ref=v1.535.6"
   enabled = true
   context = module.this.context
 }
