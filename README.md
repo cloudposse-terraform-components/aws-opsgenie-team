@@ -2,8 +2,11 @@
 
 <!-- markdownlint-disable -->
 <a href="https://cpco.io/homepage"><img src="https://github.com/cloudposse-terraform-components/aws-opsgenie-team/blob/main/.github/banner.png?raw=true" alt="Project Banner"/></a><br/>
-    <p align="right">
-<a href="https://github.com/cloudposse-terraform-components/aws-opsgenie-team/releases/latest"><img src="https://img.shields.io/github/release/cloudposse-terraform-components/aws-opsgenie-team.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a></p>
+
+
+<p align="right"><a href="https://github.com/cloudposse-terraform-components/aws-opsgenie-team/releases/latest"><img src="https://img.shields.io/github/release/cloudposse-terraform-components/aws-opsgenie-team.svg?style=for-the-badge" alt="Latest Release"/></a><a href="https://slack.cloudposse.com"><img src="https://slack.cloudposse.com/for-the-badge.svg" alt="Slack Community"/></a><a href="https://cloudposse.com/support/"><img src="https://img.shields.io/badge/Get_Support-success.svg?style=for-the-badge" alt="Get Support"/></a>
+
+</p>
 <!-- markdownlint-restore -->
 
 <!--
@@ -27,17 +30,33 @@
 
 -->
 
-This component is responsible for provisioning Opsgenie teams and related services, rules, schedules.
+This component provisions Opsgenie teams and related services, rules, and schedules.
+
+
+> [!TIP]
+> #### 👽 Use Atmos with Terraform
+> Cloud Posse uses [`atmos`](https://atmos.tools) to easily orchestrate multiple environments using Terraform. <br/>
+> Works with [Github Actions](https://atmos.tools/integrations/github-actions/), [Atlantis](https://atmos.tools/integrations/atlantis), or [Spacelift](https://atmos.tools/integrations/spacelift).
+>
+> <details>
+> <summary><strong>Watch demo of using Atmos with Terraform</strong></summary>
+> <img src="https://github.com/cloudposse/atmos/blob/main/docs/demo.gif?raw=true"/><br/>
+> <i>Example of running <a href="https://atmos.tools"><code>atmos</code></a> to manage infrastructure from our <a href="https://atmos.tools/quick-start/">Quick Start</a> tutorial.</i>
+> </details>
+
+
+
+
 
 ## Usage
 
 #### Pre-requisites
 
-You need an API Key stored in `/opsgenie/opsgenie_api_key` of SSM, this is configurable using the
+You need an API Key stored in `/opsgenie/opsgenie_api_key` of SSM; this is configurable using the
 `ssm_parameter_name_format` and `ssm_path` variables.
 
 Opsgenie is now part of Atlassian, so you need to make sure you are creating an Opsgenie API Key, which looks like
-`abcdef12-3456-7890-abcd-ef0123456789` and not an Atlassian API key, which looks like
+`abcdef12-3456-7890-abcd-ef0123456789` and not an Atlassian API key, which looks like:
 
 ```shell
 ATAfT3xFfGF0VFXAfl8EmQNPVv1Hlazp3wsJgTmM8Ph7iP-RtQyiEfw-fkDS2LvymlyUOOhc5XiSx46vQWnznCJolq-GMX4KzdvOSPhEWr-BF6LEkJQC4CSjDJv0N7d91-0gVekNmCD2kXY9haUHUSpO4H7X6QxyImUb9VmOKIWTbQi8rf4CF28=63CB21B9
@@ -45,11 +64,8 @@ ATAfT3xFfGF0VFXAfl8EmQNPVv1Hlazp3wsJgTmM8Ph7iP-RtQyiEfw-fkDS2LvymlyUOOhc5XiSx46v
 
 Generate an API Key by going to Settings -> API key management on your Opsgenie control panel, which will have an
 address like `https://<your-org>.app.opsgenie.com/settings/api-key-management`, and click the "Add new API key" button.
-For more information, see the
-[Opsgenie API key management documentation](https://support.atlassian.com/opsgenie/docs/api-key-management/).
 
-Once you have the key, you'll need to test it with a curl to verify that you are at least on a Standard plan with
-OpsGenie:
+Once you have the key, test it with curl to verify that you are at least on a Standard plan with OpsGenie:
 
 ```
 curl -X GET 'https://api.opsgenie.com/v2/account' \
@@ -69,14 +85,11 @@ The result should be something similar to below:
 }
 ```
 
-If you see `Free` or `Essentials` in the plan, then you won't be able to use this component. You can see more details
-here: [OpsGenie pricing/features](https://www.atlassian.com/software/opsgenie/pricing#)
+If you see `Free` or `Essentials` in the plan, then you won't be able to use this component.
 
 #### Getting Started
 
-**Stack Level**: Global
-
-Here's an example snippet for how to use this component.
+- Stack Level: Global
 
 This component should only be applied once as the resources it creates are regional, but it works with integrations.
 This is typically done via the auto or corp stack (e.g. `gbl-auto.yaml`).
@@ -246,9 +259,9 @@ AWS_PROFILE=foo chamber list opsgenie-team/<team>
   code). Additionally, we do not want a re-apply of the Terraform to delete or shuffle who is planned to be on call,
   thus we left who is on-call on a schedule out of the component.
 
-## Known Issues
+### Known Issues
 
-### Different API Endpoints in Use
+#### Different API Endpoints in Use
 
 The problem is there are 3 different api endpoints in use
 
@@ -256,23 +269,23 @@ The problem is there are 3 different api endpoints in use
 - `/v2/` - robust with some differences from `webapp`
 - `/v1/` - the oldest and furthest from the live UI.
 
-### Cannot create users
+#### Cannot create users
 
 This module does not create users. Users must have already been created to be added to a team.
 
-### Cannot Add dependent Services
+#### Cannot Add dependent Services
 
 - Api Currently doesn't support Multiple ServiceIds for incident Rules
 
-### Cannot Add Stakeholders
+#### Cannot Add Stakeholders
 
 - Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/278
 
-### No Resource to create Slack Integration
+#### No Resource to create Slack Integration
 
 - Track the issue: https://github.com/DataDog/terraform-provider-datadog/issues/67
 
-### Out of Date Terraform Docs
+#### Out of Date Terraform Docs
 
 Another Problem is the terraform docs are not always up to date with the provider code.
 
@@ -290,7 +303,7 @@ Unfortunately none of this is in the terraform docs, and was found via errors an
 
 Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/282
 
-### GMT Style Timezones
+#### GMT Style Timezones
 
 We recommend to use the human readable timezone such as `Europe/London`.
 
@@ -317,13 +330,32 @@ We recommend to use the human readable timezone such as `Europe/London`.
 Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/258
 
 <!-- prettier-ignore-start -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- prettier-ignore-end -->
+
+### Related How-to Guides
+
+[See OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/)
+
+> [!IMPORTANT]
+> In Cloud Posse's examples, we avoid pinning modules to specific versions to prevent discrepancies between the documentation
+> and the latest released versions. However, for your own projects, we strongly advise pinning each module to the exact version
+> you're using. This practice ensures the stability of your infrastructure. Additionally, we recommend implementing a systematic
+> approach for updating versions to avoid unexpected changes.
+
+
+
+
+
+
+
+
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.9.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.9.0, < 6.0.0 |
 | <a name="requirement_datadog"></a> [datadog](#requirement\_datadog) | >= 3.3.0 |
 | <a name="requirement_opsgenie"></a> [opsgenie](#requirement\_opsgenie) | >= 0.6.7 |
 
@@ -331,7 +363,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.9.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.9.0, < 6.0.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.3.0 |
 | <a name="provider_opsgenie"></a> [opsgenie](#provider\_opsgenie) | >= 0.6.7 |
 
@@ -339,7 +371,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_datadog_configuration"></a> [datadog\_configuration](#module\_datadog\_configuration) | ../datadog-configuration/modules/datadog_keys | n/a |
+| <a name="module_datadog_configuration"></a> [datadog\_configuration](#module\_datadog\_configuration) | github.com/cloudposse-terraform-components/aws-datadog-credentials//src/modules/datadog_keys | v1.535.7 |
 | <a name="module_escalation"></a> [escalation](#module\_escalation) | ./modules/escalation | n/a |
 | <a name="module_iam_roles"></a> [iam\_roles](#module\_iam\_roles) | ../account-map/modules/iam-roles | n/a |
 | <a name="module_integration"></a> [integration](#module\_integration) | ./modules/integration | n/a |
@@ -364,28 +396,28 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br>This is for some rare cases where resources want additional configuration of tags<br>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
-| <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br>in the order they appear in the list. New attributes are appended to the<br>end of the list. The elements of the list are joined by the `delimiter`<br>and treated as a single ID element. | `list(string)` | `[]` | no |
-| <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br>See description of individual variables for details.<br>Leave string and numeric variables as `null` to use default value.<br>Individual variable settings (non-null) override settings in context object,<br>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br>  "additional_tag_map": {},<br>  "attributes": [],<br>  "delimiter": null,<br>  "descriptor_formats": {},<br>  "enabled": true,<br>  "environment": null,<br>  "id_length_limit": null,<br>  "label_key_case": null,<br>  "label_order": [],<br>  "label_value_case": null,<br>  "labels_as_tags": [<br>    "unset"<br>  ],<br>  "name": null,<br>  "namespace": null,<br>  "regex_replace_chars": null,<br>  "stage": null,<br>  "tags": {},<br>  "tenant": null<br>}</pre> | no |
+| <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br/>This is for some rare cases where resources want additional configuration of tags<br/>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
+| <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br/>in the order they appear in the list. New attributes are appended to the<br/>end of the list. The elements of the list are joined by the `delimiter`<br/>and treated as a single ID element. | `list(string)` | `[]` | no |
+| <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br/>See description of individual variables for details.<br/>Leave string and numeric variables as `null` to use default value.<br/>Individual variable settings (non-null) override settings in context object,<br/>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br/>  "additional_tag_map": {},<br/>  "attributes": [],<br/>  "delimiter": null,<br/>  "descriptor_formats": {},<br/>  "enabled": true,<br/>  "environment": null,<br/>  "id_length_limit": null,<br/>  "label_key_case": null,<br/>  "label_order": [],<br/>  "label_value_case": null,<br/>  "labels_as_tags": [<br/>    "unset"<br/>  ],<br/>  "name": null,<br/>  "namespace": null,<br/>  "regex_replace_chars": null,<br/>  "stage": null,<br/>  "tags": {},<br/>  "tenant": null<br/>}</pre> | no |
 | <a name="input_create_only_integrations_enabled"></a> [create\_only\_integrations\_enabled](#input\_create\_only\_integrations\_enabled) | Whether to reuse all existing resources and only create new integrations | `bool` | `false` | no |
 | <a name="input_datadog_integration_enabled"></a> [datadog\_integration\_enabled](#input\_datadog\_integration\_enabled) | Whether to enable Datadog integration with opsgenie (datadog side) | `bool` | `true` | no |
-| <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between ID elements.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
-| <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br>Map of maps. Keys are names of descriptors. Values are maps of the form<br>`{<br>   format = string<br>   labels = list(string)<br>}`<br>(Type is `any` so the map values can later be enhanced to provide additional options.)<br>`format` is a Terraform format string to be passed to the `format()` function.<br>`labels` is a list of labels, in order, to pass to `format()` function.<br>Label values will be normalized before being passed to `format()` so they will be<br>identical to how they appear in `id`.<br>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
+| <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between ID elements.<br/>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
+| <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br/>Map of maps. Keys are names of descriptors. Values are maps of the form<br/>`{<br/>  format = string<br/>  labels = list(string)<br/>}`<br/>(Type is `any` so the map values can later be enhanced to provide additional options.)<br/>`format` is a Terraform format string to be passed to the `format()` function.<br/>`labels` is a list of labels, in order, to pass to `format()` function.<br/>Label values will be normalized before being passed to `format()` so they will be<br/>identical to how they appear in `id`.<br/>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | <a name="input_escalations"></a> [escalations](#input\_escalations) | Escalations to configure and create for the team. | `map(any)` | `{}` | no |
-| <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for keep the existing setting, which defaults to `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
+| <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br/>Set to `0` for unlimited length.<br/>Set to `null` for keep the existing setting, which defaults to `0`.<br/>Does not affect `id_full`. | `number` | `null` | no |
 | <a name="input_integrations"></a> [integrations](#input\_integrations) | API Integrations for the team. If not specified, `datadog` is assumed. | `map(any)` | `{}` | no |
 | <a name="input_integrations_enabled"></a> [integrations\_enabled](#input\_integrations\_enabled) | Whether to enable the integrations submodule or not | `bool` | `true` | no |
 | <a name="input_kms_key_arn"></a> [kms\_key\_arn](#input\_kms\_key\_arn) | AWS KMS key used for writing to SSM | `string` | `"alias/aws/ssm"` | no |
-| <a name="input_label_key_case"></a> [label\_key\_case](#input\_label\_key\_case) | Controls the letter case of the `tags` keys (label names) for tags generated by this module.<br>Does not affect keys of tags passed in via the `tags` input.<br>Possible values: `lower`, `title`, `upper`.<br>Default value: `title`. | `string` | `null` | no |
-| <a name="input_label_order"></a> [label\_order](#input\_label\_order) | The order in which the labels (ID elements) appear in the `id`.<br>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br>You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present. | `list(string)` | `null` | no |
-| <a name="input_label_value_case"></a> [label\_value\_case](#input\_label\_value\_case) | Controls the letter case of ID elements (labels) as included in `id`,<br>set as tag values, and output by this module individually.<br>Does not affect values of tags passed in via the `tags` input.<br>Possible values: `lower`, `title`, `upper` and `none` (no transformation).<br>Set this to `title` and set `delimiter` to `""` to yield Pascal Case IDs.<br>Default value: `lower`. | `string` | `null` | no |
-| <a name="input_labels_as_tags"></a> [labels\_as\_tags](#input\_labels\_as\_tags) | Set of labels (ID elements) to include as tags in the `tags` output.<br>Default is to include all labels.<br>Tags with empty values will not be included in the `tags` output.<br>Set to `[]` to suppress all generated tags.<br>**Notes:**<br>  The value of the `name` tag, if included, will be the `id`, not the `name`.<br>  Unlike other `null-label` inputs, the initial setting of `labels_as_tags` cannot be<br>  changed in later chained modules. Attempts to change it will be silently ignored. | `set(string)` | <pre>[<br>  "default"<br>]</pre> | no |
+| <a name="input_label_key_case"></a> [label\_key\_case](#input\_label\_key\_case) | Controls the letter case of the `tags` keys (label names) for tags generated by this module.<br/>Does not affect keys of tags passed in via the `tags` input.<br/>Possible values: `lower`, `title`, `upper`.<br/>Default value: `title`. | `string` | `null` | no |
+| <a name="input_label_order"></a> [label\_order](#input\_label\_order) | The order in which the labels (ID elements) appear in the `id`.<br/>Defaults to ["namespace", "environment", "stage", "name", "attributes"].<br/>You can omit any of the 6 labels ("tenant" is the 6th), but at least one must be present. | `list(string)` | `null` | no |
+| <a name="input_label_value_case"></a> [label\_value\_case](#input\_label\_value\_case) | Controls the letter case of ID elements (labels) as included in `id`,<br/>set as tag values, and output by this module individually.<br/>Does not affect values of tags passed in via the `tags` input.<br/>Possible values: `lower`, `title`, `upper` and `none` (no transformation).<br/>Set this to `title` and set `delimiter` to `""` to yield Pascal Case IDs.<br/>Default value: `lower`. | `string` | `null` | no |
+| <a name="input_labels_as_tags"></a> [labels\_as\_tags](#input\_labels\_as\_tags) | Set of labels (ID elements) to include as tags in the `tags` output.<br/>Default is to include all labels.<br/>Tags with empty values will not be included in the `tags` output.<br/>Set to `[]` to suppress all generated tags.<br/>**Notes:**<br/>  The value of the `name` tag, if included, will be the `id`, not the `name`.<br/>  Unlike other `null-label` inputs, the initial setting of `labels_as_tags` cannot be<br/>  changed in later chained modules. Attempts to change it will be silently ignored. | `set(string)` | <pre>[<br/>  "default"<br/>]</pre> | no |
 | <a name="input_members"></a> [members](#input\_members) | Members as objects with their role within the team. | `set(any)` | `[]` | no |
-| <a name="input_name"></a> [name](#input\_name) | ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.<br>This is the only ID element not also included as a `tag`.<br>The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input. | `string` | `null` | no |
+| <a name="input_name"></a> [name](#input\_name) | ID element. Usually the component or solution name, e.g. 'app' or 'jenkins'.<br/>This is the only ID element not also included as a `tag`.<br/>The "name" tag is set to the full `id` string. There is no tag with the value of the `name` input. | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | ID element. Usually an abbreviation of your organization name, e.g. 'eg' or 'cp', to help ensure generated IDs are globally unique | `string` | `null` | no |
-| <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br>Characters matching the regex will be removed from the ID elements.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
+| <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br/>Characters matching the regex will be removed from the ID elements.<br/>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_region"></a> [region](#input\_region) | AWS Region | `string` | n/a | yes |
 | <a name="input_routing_rules"></a> [routing\_rules](#input\_routing\_rules) | Routing Rules for the team | `any` | `null` | no |
 | <a name="input_schedules"></a> [schedules](#input\_schedules) | Schedules to create for the team | `map(any)` | `{}` | no |
@@ -393,10 +425,10 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 | <a name="input_ssm_parameter_name_format"></a> [ssm\_parameter\_name\_format](#input\_ssm\_parameter\_name\_format) | SSM parameter name format | `string` | `"/%s/%s"` | no |
 | <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | SSM path | `string` | `"opsgenie"` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional tags (e.g. `{'BusinessUnit': 'XYZ'}`).<br/>Neither the tag keys nor the tag values will be modified by this module. | `map(string)` | `{}` | no |
 | <a name="input_team_name"></a> [team\_name](#input\_team\_name) | Current OpsGenie Team Name | `string` | `null` | no |
 | <a name="input_team_naming_format"></a> [team\_naming\_format](#input\_team\_naming\_format) | OpsGenie Team Naming Format | `string` | `"%s_%s"` | no |
-| <a name="input_team_options"></a> [team\_options](#input\_team\_options) | Configure the team options.<br>See `opsgenie_team` Terraform resource [documentation](https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team#argument-reference) for more details. | <pre>object({<br>    description              = optional(string)<br>    ignore_members           = optional(bool, false)<br>    delete_default_resources = optional(bool, false)<br>  })</pre> | `{}` | no |
+| <a name="input_team_options"></a> [team\_options](#input\_team\_options) | Configure the team options.<br/>See `opsgenie_team` Terraform resource [documentation](https://registry.terraform.io/providers/opsgenie/opsgenie/latest/docs/resources/team#argument-reference) for more details. | <pre>object({<br/>    description              = optional(string)<br/>    ignore_members           = optional(bool, false)<br/>    delete_default_resources = optional(bool, false)<br/>  })</pre> | `{}` | no |
 | <a name="input_tenant"></a> [tenant](#input\_tenant) | ID element \_(Rarely used, not included by default)\_. A customer identifier, indicating who this instance of a resource is for | `string` | `null` | no |
 
 ## Outputs
@@ -409,34 +441,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 | <a name="output_team_id"></a> [team\_id](#output\_team\_id) | Team ID |
 | <a name="output_team_members"></a> [team\_members](#output\_team\_members) | Team members |
 | <a name="output_team_name"></a> [team\_name](#output\_team\_name) | Team Name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- prettier-ignore-end -->
-
-## Related How-to Guides
-
-[See OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/)
-
-## References
-
-- [cloudposse/terraform-aws-components](https://github.com/cloudposse/terraform-aws-components/tree/main/modules/opsgenie-team) -
-  Cloud Posse's upstream component
-
-
-> [!TIP]
-> #### 👽 Use Atmos with Terraform
-> Cloud Posse uses [`atmos`](https://atmos.tools) to easily orchestrate multiple environments using Terraform. <br/>
-> Works with [Github Actions](https://atmos.tools/integrations/github-actions/), [Atlantis](https://atmos.tools/integrations/atlantis), or [Spacelift](https://atmos.tools/integrations/spacelift).
->
-> <details>
-> <summary><strong>Watch demo of using Atmos with Terraform</strong></summary>
-> <img src="https://github.com/cloudposse/atmos/blob/main/docs/demo.gif?raw=true"/><br/>
-> <i>Example of running <a href="https://atmos.tools"><code>atmos</code></a> to manage infrastructure from our <a href="https://atmos.tools/quick-start/">Quick Start</a> tutorial.</i>
-> </detalis>
-
-
-
-
-
+<!-- markdownlint-restore -->
 
 
 
@@ -449,6 +454,22 @@ Check out these related projects.
 
 - [Cloud Posse Terraform Modules](https://docs.cloudposse.com/modules/) - Our collection of reusable Terraform modules used by our reference architectures.
 - [Atmos](https://atmos.tools) - Atmos is like docker-compose but for your infrastructure
+
+
+## References
+
+For additional context, refer to some of these links.
+
+- [cloudposse-terraform-components](https://github.com/orgs/cloudposse-terraform-components/repositories) - Cloud Posse's upstream component
+- [Opsgenie API key management documentation](https://support.atlassian.com/opsgenie/docs/api-key-management/) - 
+- [OpsGenie pricing/features](https://www.atlassian.com/software/opsgenie/pricing#) - 
+- [Supported timezone IDs](https://support.atlassian.com/opsgenie/docs/supported-timezone-ids/) - 
+- [Issue - Cannot Add Stakeholders](https://github.com/opsgenie/terraform-provider-opsgenie/issues/278) - 
+- [Issue - No Resource to create Slack Integration](https://github.com/DataDog/terraform-provider-datadog/issues/67) - 
+- [Issue - Out of Date Terraform Docs](https://github.com/opsgenie/terraform-provider-opsgenie/issues/282) - 
+- [Issue - GMT Style Timezones](https://github.com/opsgenie/terraform-provider-opsgenie/issues/258) - 
+- [OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/) - 
+
 
 
 > [!TIP]
@@ -514,6 +535,38 @@ In general, PRs are welcome. We follow the typical "fork-and-pull" Git workflow.
  6. Submit a **Pull Request** so that we can review your changes
 
 **NOTE:** Be sure to merge the latest changes from "upstream" before making a pull request!
+
+
+## Running Terraform Tests
+
+We use [Atmos](https://atmos.tools) to streamline how Terraform tests are run. It centralizes configuration and wraps common test workflows with easy-to-use commands.
+
+All tests are located in the [`test/`](test) folder.
+
+Under the hood, tests are powered by Terratest together with our internal [Test Helpers](https://github.com/cloudposse/test-helpers) library, providing robust infrastructure validation.
+
+Setup dependencies:
+- Install Atmos ([installation guide](https://atmos.tools/install/))
+- Install Go [1.24+ or newer](https://go.dev/doc/install)
+- Install Terraform or OpenTofu
+
+To run tests:
+
+- Run all tests:  
+  ```sh
+  atmos test run
+  ```
+- Clean up test artifacts:  
+  ```sh
+  atmos test clean
+  ```
+- Explore additional test options:  
+  ```sh
+  atmos test --help
+  ```
+The configuration for test commands is centrally managed. To review what's being imported, see the [`atmos.yaml`](https://raw.githubusercontent.com/cloudposse/.github/refs/heads/main/.github/atmos/terraform-module.yaml) file.
+
+Learn more about our [automated testing in our documentation](https://docs.cloudposse.com/community/contribute/automated-testing/) or implementing [custom commands](https://atmos.tools/core-concepts/custom-commands/) with atmos.
 
 ### 🌎 Slack Community
 
