@@ -7,17 +7,16 @@ tags:
 
 # Component: `opsgenie-team`
 
-This component is responsible for provisioning Opsgenie teams and related services, rules, schedules.
-
+This component provisions Opsgenie teams and related services, rules, and schedules.
 ## Usage
 
 #### Pre-requisites
 
-You need an API Key stored in `/opsgenie/opsgenie_api_key` of SSM, this is configurable using the
+You need an API Key stored in `/opsgenie/opsgenie_api_key` of SSM; this is configurable using the
 `ssm_parameter_name_format` and `ssm_path` variables.
 
 Opsgenie is now part of Atlassian, so you need to make sure you are creating an Opsgenie API Key, which looks like
-`abcdef12-3456-7890-abcd-ef0123456789` and not an Atlassian API key, which looks like
+`abcdef12-3456-7890-abcd-ef0123456789` and not an Atlassian API key, which looks like:
 
 ```shell
 ATAfT3xFfGF0VFXAfl8EmQNPVv1Hlazp3wsJgTmM8Ph7iP-RtQyiEfw-fkDS2LvymlyUOOhc5XiSx46vQWnznCJolq-GMX4KzdvOSPhEWr-BF6LEkJQC4CSjDJv0N7d91-0gVekNmCD2kXY9haUHUSpO4H7X6QxyImUb9VmOKIWTbQi8rf4CF28=63CB21B9
@@ -25,11 +24,8 @@ ATAfT3xFfGF0VFXAfl8EmQNPVv1Hlazp3wsJgTmM8Ph7iP-RtQyiEfw-fkDS2LvymlyUOOhc5XiSx46v
 
 Generate an API Key by going to Settings -> API key management on your Opsgenie control panel, which will have an
 address like `https://<your-org>.app.opsgenie.com/settings/api-key-management`, and click the "Add new API key" button.
-For more information, see the
-[Opsgenie API key management documentation](https://support.atlassian.com/opsgenie/docs/api-key-management/).
 
-Once you have the key, you'll need to test it with a curl to verify that you are at least on a Standard plan with
-OpsGenie:
+Once you have the key, test it with curl to verify that you are at least on a Standard plan with OpsGenie:
 
 ```
 curl -X GET 'https://api.opsgenie.com/v2/account' \
@@ -49,14 +45,11 @@ The result should be something similar to below:
 }
 ```
 
-If you see `Free` or `Essentials` in the plan, then you won't be able to use this component. You can see more details
-here: [OpsGenie pricing/features](https://www.atlassian.com/software/opsgenie/pricing#)
+If you see `Free` or `Essentials` in the plan, then you won't be able to use this component.
 
 #### Getting Started
 
-**Stack Level**: Global
-
-Here's an example snippet for how to use this component.
+- Stack Level: Global
 
 This component should only be applied once as the resources it creates are regional, but it works with integrations.
 This is typically done via the auto or corp stack (e.g. `gbl-auto.yaml`).
@@ -226,9 +219,9 @@ AWS_PROFILE=foo chamber list opsgenie-team/<team>
   code). Additionally, we do not want a re-apply of the Terraform to delete or shuffle who is planned to be on call,
   thus we left who is on-call on a schedule out of the component.
 
-## Known Issues
+### Known Issues
 
-### Different API Endpoints in Use
+#### Different API Endpoints in Use
 
 The problem is there are 3 different api endpoints in use
 
@@ -236,23 +229,23 @@ The problem is there are 3 different api endpoints in use
 - `/v2/` - robust with some differences from `webapp`
 - `/v1/` - the oldest and furthest from the live UI.
 
-### Cannot create users
+#### Cannot create users
 
 This module does not create users. Users must have already been created to be added to a team.
 
-### Cannot Add dependent Services
+#### Cannot Add dependent Services
 
 - Api Currently doesn't support Multiple ServiceIds for incident Rules
 
-### Cannot Add Stakeholders
+#### Cannot Add Stakeholders
 
 - Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/278
 
-### No Resource to create Slack Integration
+#### No Resource to create Slack Integration
 
 - Track the issue: https://github.com/DataDog/terraform-provider-datadog/issues/67
 
-### Out of Date Terraform Docs
+#### Out of Date Terraform Docs
 
 Another Problem is the terraform docs are not always up to date with the provider code.
 
@@ -270,7 +263,7 @@ Unfortunately none of this is in the terraform docs, and was found via errors an
 
 Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/282
 
-### GMT Style Timezones
+#### GMT Style Timezones
 
 We recommend to use the human readable timezone such as `Europe/London`.
 
@@ -297,7 +290,14 @@ We recommend to use the human readable timezone such as `Europe/London`.
 Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/258
 
 <!-- prettier-ignore-start -->
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- prettier-ignore-end -->
+
+### Related How-to Guides
+
+[See OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/)
+
+
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -389,16 +389,33 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 | <a name="output_team_id"></a> [team\_id](#output\_team\_id) | Team ID |
 | <a name="output_team_members"></a> [team\_members](#output\_team\_members) | Team members |
 | <a name="output_team_name"></a> [team\_name](#output\_team\_name) | Team Name |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
-<!-- prettier-ignore-end -->
+<!-- markdownlint-restore -->
 
-## Related How-to Guides
 
-[See OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/)
 
 ## References
 
-- [cloudposse/terraform-aws-components](https://github.com/cloudposse/terraform-aws-components/tree/main/modules/opsgenie-team) -
-  Cloud Posse's upstream component
+
+- [cloudposse-terraform-components](https://github.com/orgs/cloudposse-terraform-components/repositories) - Cloud Posse's upstream component
+
+- [Opsgenie API key management documentation](https://support.atlassian.com/opsgenie/docs/api-key-management/) - 
+
+- [OpsGenie pricing/features](https://www.atlassian.com/software/opsgenie/pricing#) - 
+
+- [Supported timezone IDs](https://support.atlassian.com/opsgenie/docs/supported-timezone-ids/) - 
+
+- [Issue - Cannot Add Stakeholders](https://github.com/opsgenie/terraform-provider-opsgenie/issues/278) - 
+
+- [Issue - No Resource to create Slack Integration](https://github.com/DataDog/terraform-provider-datadog/issues/67) - 
+
+- [Issue - Out of Date Terraform Docs](https://github.com/opsgenie/terraform-provider-opsgenie/issues/282) - 
+
+- [Issue - GMT Style Timezones](https://github.com/opsgenie/terraform-provider-opsgenie/issues/258) - 
+
+- [OpsGenie in the Reference Architecture](https://docs.cloudposse.com/layers/alerting/opsgenie/) - 
+
+
+
 
 [<img src="https://cloudposse.com/logo-300x69.svg" height="32" align="right"/>](https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse-terraform-components/aws-opsgenie-team&utm_content=)
+
