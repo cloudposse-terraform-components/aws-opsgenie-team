@@ -40,14 +40,14 @@ module "team_routing_rule" {
 
   team_routing_rule = {
     name    = local.team_routing_rule_name
-    team_id = join("", data.opsgenie_team.default.*.id)
+    team_id = join("", data.opsgenie_team.default[*].id)
 
     order = var.order
 
     notify = [{
       type = var.notify.type
       name = try(format(var.team_naming_format, var.team_name, var.notify.name), null)
-      id   = try(join("", data.opsgenie_schedule.notification_schedule.*.id), "")
+      id   = try(join("", data.opsgenie_schedule.notification_schedule[*].id), "")
     }]
 
     criteria = {

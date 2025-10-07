@@ -64,9 +64,3 @@ variable "time_restriction" {
   description = "Time restriction of alert routing rule"
 }
 
-variable "is_default" {
-  type        = bool
-  default     = false
-  description = "Set this alerting route as the default route"
-
-}

@@ -1,5 +1,5 @@
 output "team_members" {
-  value       = local.enabled ? module.members_merge.*.merged : null
+  value       = local.enabled ? module.members_merge[*].merged : null
   description = "Team members"
 }
 

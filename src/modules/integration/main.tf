@@ -8,7 +8,7 @@ locals {
 
   ssm_path = format(var.ssm_path_format, local.name)
 
-  team_id = join("", data.opsgenie_team.default.*.id)
+  team_id = join("", data.opsgenie_team.default[*].id)
 
   append_datadog_tags_enabled = local.enabled && local.is_type_datadog && var.append_datadog_tags_enabled
 }
