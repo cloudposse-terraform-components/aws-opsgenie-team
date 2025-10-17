@@ -4,6 +4,12 @@ github_repo: "cloudposse-terraform-components/aws-opsgenie-team"
 # Short description of this project
 description: |-
   This component provisions Opsgenie teams and related services, rules, and schedules.
+
+deprecated:
+  notice: |-
+    This module is deprecated and will be archived on January 17, 2026.
+    Please see the [pinned issue](https://github.com/cloudposse-terraform-components/aws-opsgenie-team/issues/57) for details and migration guidance.
+
 usage: |-
   #### Pre-requisites
 
