@@ -5,8 +5,11 @@ tags:
   - provider/aws
 ---
 
-# Component: `opsgenie-team`
+# (deprecated) Component: `opsgenie-team`<img src="https://img.shields.io/badge/lifecycle-deprecated-critical?style=for-the-badge" alt="Deprecated"/>
+## Deprecated
 
+This module is deprecated and will be archived on January 17, 2026.
+Please see the [pinned issue](https://github.com/cloudposse-terraform-components/aws-opsgenie-team/issues/57) for details and migration guidance.
 This component provisions Opsgenie teams and related services, rules, and schedules.
 ## Usage
 
