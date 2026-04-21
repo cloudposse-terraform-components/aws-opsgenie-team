@@ -304,7 +304,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Requirements
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.9.0, < 6.0.0 |
 | <a name="requirement_datadog"></a> [datadog](#requirement\_datadog) | >= 3.3.0 |
@@ -313,7 +313,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Providers
 
 | Name | Version |
-|------|---------|
+| ---- | ------- |
 | <a name="provider_aws"></a> [aws](#provider\_aws) | >= 4.9.0, < 6.0.0 |
 | <a name="provider_datadog"></a> [datadog](#provider\_datadog) | >= 3.3.0 |
 | <a name="provider_opsgenie"></a> [opsgenie](#provider\_opsgenie) | >= 0.6.7 |
@@ -321,7 +321,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Modules
 
 | Name | Source | Version |
-|------|--------|---------|
+| ---- | ------ | ------- |
 | <a name="module_datadog_configuration"></a> [datadog\_configuration](#module\_datadog\_configuration) | github.com/cloudposse-terraform-components/aws-datadog-credentials//src/modules/datadog_keys | v1.535.13 |
 | <a name="module_escalation"></a> [escalation](#module\_escalation) | ./modules/escalation | n/a |
 | <a name="module_iam_roles"></a> [iam\_roles](#module\_iam\_roles) | ../account-map/modules/iam-roles | n/a |
@@ -336,7 +336,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Resources
 
 | Name | Type |
-|------|------|
+| ---- | ---- |
 | [datadog_integration_opsgenie_service_object.fake_service_name](https://registry.terraform.io/providers/datadog/datadog/latest/docs/resources/integration_opsgenie_service_object) | resource |
 | [aws_ssm_parameter.opsgenie_api_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
 | [aws_ssm_parameter.opsgenie_team_api_key](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ssm_parameter) | data source |
@@ -346,7 +346,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
+| ---- | ----------- | ---- | ------- | :------: |
 | <a name="input_additional_tag_map"></a> [additional\_tag\_map](#input\_additional\_tag\_map) | Additional key-value pairs to add to each map in `tags_as_list_of_maps`. Not added to `tags` or `id`.<br/>This is for some rare cases where resources want additional configuration of tags<br/>and therefore take a list of maps with tag key, value, and additional configuration. | `map(string)` | `{}` | no |
 | <a name="input_attributes"></a> [attributes](#input\_attributes) | ID element. Additional attributes (e.g. `workers` or `cluster`) to add to `id`,<br/>in the order they appear in the list. New attributes are appended to the<br/>end of the list. The elements of the list are joined by the `delimiter`<br/>and treated as a single ID element. | `list(string)` | `[]` | no |
 | <a name="input_context"></a> [context](#input\_context) | Single object for setting entire context at once.<br/>See description of individual variables for details.<br/>Leave string and numeric variables as `null` to use default value.<br/>Individual variable settings (non-null) override settings in context object,<br/>except for attributes, tags, and additional\_tag\_map, which are merged. | `any` | <pre>{<br/>  "additional_tag_map": {},<br/>  "attributes": [],<br/>  "delimiter": null,<br/>  "descriptor_formats": {},<br/>  "enabled": true,<br/>  "environment": null,<br/>  "id_length_limit": null,<br/>  "label_key_case": null,<br/>  "label_order": [],<br/>  "label_value_case": null,<br/>  "labels_as_tags": [<br/>    "unset"<br/>  ],<br/>  "name": null,<br/>  "namespace": null,<br/>  "regex_replace_chars": null,<br/>  "stage": null,<br/>  "tags": {},<br/>  "tenant": null<br/>}</pre> | no |
@@ -384,7 +384,7 @@ Track the issue: https://github.com/opsgenie/terraform-provider-opsgenie/issues/
 ## Outputs
 
 | Name | Description |
-|------|-------------|
+| ---- | ----------- |
 | <a name="output_escalation"></a> [escalation](#output\_escalation) | Escalation rules created |
 | <a name="output_integration"></a> [integration](#output\_integration) | Integrations created |
 | <a name="output_routing"></a> [routing](#output\_routing) | Routing rules created |
